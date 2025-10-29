@@ -1,4 +1,3 @@
-# MICROSERVICIOS-DOCKER-EJE-4-APARTE-
 🧭 DÍA 4 — - 28/10/ 2025 Backend: Email / Notifications Service
 📦 Puerto sugerido: 8002
  📚 Nivel: Intermedio (enfocado en integración y comunicación entre servicios)
