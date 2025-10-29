@@ -38,6 +38,7 @@ Permite recibir mensajes de contacto desde el frontend o cualquier otro servicio
 }
 ```
 ###Estructura del proyecto:
+```
 email-service/
 ├── app/
 │   ├── email_service/       # Configuración central (settings.py, celery.py, urls.py)
@@ -50,11 +51,11 @@ email-service/
 ├── requirements.txt
 ├── manage.py
 └── Dockerfile
-
+```
 🛠️ Observabilidad y Resiliencia
 
 El microservicio está diseñado para ser robusto y observable:
-
+```
 🧵 Cola Asíncrona (Celery + Redis):
 Todas las operaciones de envío de correo se encolan, evitando bloquear el hilo principal.
 
@@ -69,7 +70,7 @@ Registra entradas, salidas y tiempos de procesamiento de cada solicitud.
 
 🧱 Idempotencia (Opcional):
 Permite evitar el reprocesamiento de mensajes duplicados mediante un UUID cliente.
-
+```
 🧪 Cómo Ejecutar el Servicio
 1️⃣ Requisitos Previos
 
@@ -81,30 +82,35 @@ Servidor Redis en ejecución local (localhost:6379)
 
 2️⃣ Instalación
 # Clonar el repositorio
+```
 git clone https://github.com/tuusuario/email-service.git
 cd email-service
-
+```
 # Crear entorno virtual
+```
 python -m venv venv
 .\venv\Scripts\activate  # En Windows PowerShell
-
+```
+```
 # Instalar dependencias
 pip install -r requirements.txt
-
+```
+```
 3️⃣ Ejecución del Servidor Django
 python manage.py runserver 8002
-
+```
+```
 4️⃣ Iniciar el Worker de Celery
 
 Ejecuta en una nueva terminal (con el entorno virtual activo):
 
 celery -A email_service worker -l info
-
+```
 🚀 Comandos de Prueba (cURL)
 🩺 Healthcheck
 
 Verifica el estado del servicio:
-
+```
 curl -X GET http://localhost:8002/healthz/
 
 💬 Enviar Mensaje de Contacto
@@ -124,14 +130,15 @@ curl -X POST http://localhost:8002/api/notify/ \
   "subject": "Alerta de Sistema",
   "body": "Se ha detectado una actividad inusual en el puerto 8000."
 }'
-
+```
 🧠 Notas Técnicas
-
+```
 Celery Broker: Redis
-
+```
 Backend: PostgreSQL / SQLite
-
+```
 API Docs: /docs/ (generado por DRF o Swagger según configuración)
-
+```
 Healthcheck: /healthz/
 
+```
