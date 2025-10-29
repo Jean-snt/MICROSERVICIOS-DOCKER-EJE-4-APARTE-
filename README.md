@@ -130,15 +130,15 @@ curl -X POST http://localhost:8002/api/notify/ \
   "subject": "Alerta de Sistema",
   "body": "Se ha detectado una actividad inusual en el puerto 8000."
 }'
-```
+---
 🧠 Notas Técnicas
-```
+
 Celery Broker: Redis
-```
+
 Backend: PostgreSQL / SQLite
-```
+
 API Docs: /docs/ (generado por DRF o Swagger según configuración)
-```
+
 Healthcheck: /healthz/
 
-```
+---
