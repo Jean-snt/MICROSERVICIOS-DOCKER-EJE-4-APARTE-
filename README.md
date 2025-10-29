@@ -36,3 +36,18 @@ Permite recibir mensajes de contacto desde el frontend o cualquier otro servicio
   "email": "carlos@mail.com",
   "message": "Me interesa una colaboración"
 }
+
+###Estructura del proyecto:
+email-service/
+├── app/
+│   ├── email_service/       # Configuración central (settings.py, celery.py, urls.py)
+│   └── notifications/
+│        ├── models.py       # Modelos: ContactMessage, NotificationLog
+│        ├── serializers.py  # Validadores de datos (DRF)
+│        ├── views.py        # ContactViewSet, NotifyViewSet
+│        └── tasks.py        # Tareas Celery (send_email_task)
+├── openapi.yaml
+├── requirements.txt
+├── manage.py
+└── Dockerfile
+
