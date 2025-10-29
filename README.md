@@ -36,7 +36,7 @@ Permite recibir mensajes de contacto desde el frontend o cualquier otro servicio
   "email": "carlos@mail.com",
   "message": "Me interesa una colaboración"
 }
-
+```
 ###Estructura del proyecto:
 email-service/
 ├── app/
@@ -50,4 +50,88 @@ email-service/
 ├── requirements.txt
 ├── manage.py
 └── Dockerfile
+
+🛠️ Observabilidad y Resiliencia
+
+El microservicio está diseñado para ser robusto y observable:
+
+🧵 Cola Asíncrona (Celery + Redis):
+Todas las operaciones de envío de correo se encolan, evitando bloquear el hilo principal.
+
+🔁 Reintentos Automáticos:
+Hasta 3 reintentos con un delay de 5 segundos, garantizando entrega confiable.
+
+🩺 Healthcheck (/healthz):
+Endpoint para verificar la conexión con la base de datos y Redis.
+
+📊 Logs Estructurados (JSON):
+Registra entradas, salidas y tiempos de procesamiento de cada solicitud.
+
+🧱 Idempotencia (Opcional):
+Permite evitar el reprocesamiento de mensajes duplicados mediante un UUID cliente.
+
+🧪 Cómo Ejecutar el Servicio
+1️⃣ Requisitos Previos
+
+Python 3.10+
+
+pip
+
+Servidor Redis en ejecución local (localhost:6379)
+
+2️⃣ Instalación
+# Clonar el repositorio
+git clone https://github.com/tuusuario/email-service.git
+cd email-service
+
+# Crear entorno virtual
+python -m venv venv
+.\venv\Scripts\activate  # En Windows PowerShell
+
+# Instalar dependencias
+pip install -r requirements.txt
+
+3️⃣ Ejecución del Servidor Django
+python manage.py runserver 8002
+
+4️⃣ Iniciar el Worker de Celery
+
+Ejecuta en una nueva terminal (con el entorno virtual activo):
+
+celery -A email_service worker -l info
+
+🚀 Comandos de Prueba (cURL)
+🩺 Healthcheck
+
+Verifica el estado del servicio:
+
+curl -X GET http://localhost:8002/healthz/
+
+💬 Enviar Mensaje de Contacto
+curl -X POST http://localhost:8002/api/contact/ \
+-H "Content-Type: application/json" \
+-d '{
+  "name": "Elon Musk",
+  "email": "elon@xcorp.com",
+  "message": "Necesito un billón de notificaciones."
+}'
+
+🔔 Enviar Notificación Interna
+curl -X POST http://localhost:8002/api/notify/ \
+-H "Content-Type: application/json" \
+-d '{
+  "to": "receiver@example.com",
+  "subject": "Alerta de Sistema",
+  "body": "Se ha detectado una actividad inusual en el puerto 8000."
+}'
+
+🧠 Notas Técnicas
+
+Celery Broker: Redis
+
+Backend: PostgreSQL / SQLite
+
+API Docs: /docs/ (generado por DRF o Swagger según configuración)
+
+Healthcheck: /healthz/
 
